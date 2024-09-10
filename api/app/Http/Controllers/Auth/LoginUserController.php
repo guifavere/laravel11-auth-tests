@@ -17,6 +17,7 @@ final class LoginUserController extends Controller
 
         if (Auth::attempt($credentials)) {
             return response()->json([
+                'user' => Auth::user(),
                 'token' => Auth::user()->createToken('auth_token')->plainTextToken,
             ]);
         }

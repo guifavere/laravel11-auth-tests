@@ -30,5 +30,14 @@ test('should login user', function () {
         'password' => 'password123',
     ]);
 
-    $response->assertStatus(200)->assertJsonStructure(['token']);
+    $response->assertStatus(200)->assertJsonStructure([
+        'user' => [
+            'id',
+            'name',
+            'email',
+            'created_at',
+            'updated_at',
+        ],
+        'token',
+    ]);
 });

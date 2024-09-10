@@ -8,12 +8,10 @@ use App\Models\User;
 
 final class RegisterUserController extends Controller
 {
-    public function __invoke(RegisterUserRequest $request): \Illuminate\Http\JsonResponse
+    public function __invoke(RegisterUserRequest $request): \Illuminate\Http\Response
     {
-        $user = User::create($request->validated());
+        User::create($request->validated());
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        return response()->noContent();
     }
 }

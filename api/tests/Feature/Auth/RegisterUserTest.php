@@ -13,13 +13,5 @@ test('should register a user', function () {
         'email' => 'user@test.com',
     ]);
 
-    $response->assertStatus(200)->assertJsonStructure([
-        'user' => [
-            'id',
-            'name',
-            'email',
-            'created_at',
-            'updated_at',
-        ],
-    ]);
+    $response->assertStatus(204);
 });
