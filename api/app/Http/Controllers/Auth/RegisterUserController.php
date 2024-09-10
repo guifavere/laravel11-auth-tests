@@ -12,11 +12,8 @@ final class RegisterUserController extends Controller
     {
         $user = User::create($request->validated());
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'user' => $user,
-            'token' => $token,
         ]);
     }
 }
