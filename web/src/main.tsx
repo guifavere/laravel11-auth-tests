@@ -6,12 +6,14 @@ import { Root } from './Root.tsx'
 import { Login } from './Login.tsx'
 import { Register } from './Register.tsx'
 import { Dashboard } from './Dashboard.tsx'
+import { Home } from './Home.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
     children: [
+      { path: '', index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'dashboard', element: <Dashboard /> },
