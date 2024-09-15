@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 final class LogoutUserController
 {
     public function __invoke(Request $request): \Illuminate\Http\Response
     {
-        $request->user()->currentAccessToken()->delete();
+        PersonalAccessToken::findToken($request->bearerToken())->delete();
 
         return response()->noContent();
     }
