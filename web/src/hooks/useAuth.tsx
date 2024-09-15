@@ -1,15 +1,18 @@
 import React, { createContext, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import { api } from "@/lib/api";
 import { useLocalStorage } from "./useLocalStorage";
 
 interface User {
   id: number;
   name: string;
   email: string;
+  token: string;
 }
 
 interface AuthContext {
   user: null | User;
+  isAuthenticated: boolean;
   login(email: string, password: string): void;
   logout(): void;
 } 
@@ -22,16 +25,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
   const login = async (email: string, password: string) => {
-    setUser({ id: 1, name: 'fake-user', email });
+    setUser({ id: 1, name: 'fake-user', email, token: '123' });
     navigate('/dashboard');
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await api.post(
+      'logout',
+      [],
+      { headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${user?.token}` } },
+    );
+
     setUser(null);
     navigate('/', { replace: true });
   }
 
-  const value = { user, login, logout };
+  const isAuthenticated = user !== null;
+
+  const value = { user, isAuthenticated, login, logout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
