@@ -2,7 +2,8 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormItem } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from "./components/ui/input";
-import { api } from "./lib/api";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
 interface FormValues {
   name: string;
@@ -16,17 +17,16 @@ const defaultValues = {
   password: 'password123',
 };
 
-const csrf = () => api.get('/sanctum/csrf-cookie');
-
 export const Register = () => {
+  const navigate = useNavigate();
+
+  const { register } = useAuth();
+
   const form = useForm<FormValues>({ defaultValues });
 
-  const onSubmit = async (data: FormValues) => {
-    await csrf();
-
-    const response = await api.post('/register', data);
-
-    console.log('onSubmit', response.data);
+  const onSubmit = async ({ name, email, password }: FormValues) => {
+    await register({ name, email, password });
+    navigate('/login');
   };
 
   return (

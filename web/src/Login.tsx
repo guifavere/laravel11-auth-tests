@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form"
 import { Form, FormControl, FormItem } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from "./components/ui/input";
-import { api } from "./lib/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
 interface FormValues {
   email: string;
@@ -17,12 +17,13 @@ const defaultValues = {
 
 export const Login = () => {
   const navigate = useNavigate();
+
+  const { login } = useAuth();
   
   const form = useForm<FormValues>({ defaultValues });
 
-  const onSubmit = async (data: FormValues) => {
-    await api.post('/login', data);
-
+  const onSubmit = async ({ email, password }: FormValues) => {
+    await login(email, password);
     navigate('/dashboard');
   };
 

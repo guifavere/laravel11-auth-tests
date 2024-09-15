@@ -8,3 +8,5 @@ export const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+export const csrf = () => api.get('/sanctum/csrf-cookie');

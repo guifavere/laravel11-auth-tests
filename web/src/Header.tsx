@@ -6,9 +6,17 @@ import {
 } from "@/components/ui/navigation-menu"
 import { useAuth } from "./hooks/useAuth";
 import { Button } from "./components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
+  const navigate = useNavigate();
+
   const { isAuthenticated, logout } = useAuth();
+
+  const onLogout = async () => {
+    await logout();
+    navigate('/', { replace: true });
+  }
 
   return (
     <header className="container flex items-center justify-between mx-auto border border-gray-600 p-4">
@@ -22,7 +30,7 @@ export const Header = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {isAuthenticated && <Button onClick={logout}>logout</Button>}
+      {isAuthenticated && <Button onClick={onLogout}>logout</Button>}
     </header>
   )
 }
