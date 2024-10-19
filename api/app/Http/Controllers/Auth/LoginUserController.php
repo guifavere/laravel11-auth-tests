@@ -23,6 +23,6 @@ final class LoginUserController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return response()->noContent();
     }
 }

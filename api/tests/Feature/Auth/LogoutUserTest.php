@@ -10,5 +10,5 @@ test('should logout the user', function () {
 
     $response = $this->postJson('logout');
 
-    $response->assertRedirect('/');
+    $response->assertNoContent();
 });

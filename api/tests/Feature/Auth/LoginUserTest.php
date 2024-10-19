@@ -30,5 +30,5 @@ test('should login user', function () {
         'password' => 'password123',
     ]);
 
-    $response->assertRedirect('/');
+    $response->assertNoContent();
 });

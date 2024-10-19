@@ -12,6 +12,6 @@ final class RegisterUserController extends Controller
     {
         User::create($request->validated());
 
-        return redirect('/login');
+        return response()->noContent();
     }
 }
