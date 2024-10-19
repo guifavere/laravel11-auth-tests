@@ -7,7 +7,7 @@ import { Login } from './Login.tsx'
 import { Register } from './Register.tsx'
 import { Dashboard } from './Dashboard.tsx'
 import { Home } from './Home.tsx'
-import { ProtectedRoutes, loader as protectedRoutesLoader } from './ProtectedRoutes.tsx'
+import { ProtectedRoutes } from './ProtectedRoutes.tsx'
 
 const router = createBrowserRouter([
   {
@@ -17,9 +17,13 @@ const router = createBrowserRouter([
       { path: '', index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
-      { path: '', element: <ProtectedRoutes />, loader: protectedRoutesLoader, children: [
-        { path: 'dashboard', element: <Dashboard /> },
-      ] },
+      {
+        path: '',
+        element: <ProtectedRoutes />,
+        children: [
+          { path: 'dashboard', element: <Dashboard /> },
+        ],
+      },
     ],
   }
 ])

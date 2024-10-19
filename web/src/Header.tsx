@@ -15,7 +15,7 @@ export const Header = () => {
 
   const onLogout = async () => {
     await logout();
-    navigate('/', { replace: true });
+    navigate('/login', { replace: true });
   }
 
   return (

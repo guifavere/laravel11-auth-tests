@@ -1,18 +1,15 @@
-import { Outlet, redirect } from "react-router-dom";
-import { getUser } from "./lib/api";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
+import { useEffect } from "react";
 
-export const loader = async () => {
-  try {
-    const { data } = await getUser();
+export const ProtectedRoutes = () => {
+  const navigate = useNavigate();
 
-    return { user: data };
-  } catch (error) {
-    if (error?.response?.status === 401 || error?.response?.status === 419) {
-      return redirect('login');
-    }
+  const { isAuthenticated } = useAuth();
 
-    throw error;
-  }
+  useEffect(() => {
+    if (!isAuthenticated) navigate('/login');
+  }, [isAuthenticated]);
+
+  return <Outlet />;
 }
-
-export const ProtectedRoutes = () => <Outlet />;
