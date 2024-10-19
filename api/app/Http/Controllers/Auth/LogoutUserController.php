@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Auth;
 
-final class LogoutUserController
+final class LogoutUserController extends Controller
 {
-    public function __invoke(Request $request): \Illuminate\Http\Response
+    public function __invoke(Request $request)
     {
-        PersonalAccessToken::findToken($request->bearerToken())->delete();
+        Auth::guard('web')->logout();
 
-        return response()->noContent();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

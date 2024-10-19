@@ -8,10 +8,10 @@ use App\Models\User;
 
 final class RegisterUserController extends Controller
 {
-    public function __invoke(RegisterUserRequest $request): \Illuminate\Http\Response
+    public function __invoke(RegisterUserRequest $request)
     {
         User::create($request->validated());
 
-        return response()->noContent();
+        return redirect('/login');
     }
 }

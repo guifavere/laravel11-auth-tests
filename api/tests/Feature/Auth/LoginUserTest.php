@@ -13,7 +13,7 @@ test('should not login user with invalid credentials', function (string $email, 
         'password' => $password,
     ]);
 
-    $response->assertStatus(422)->assertJsonStructure(['message']);
+    $response->assertRedirect()->assertSessionHasErrors('email');
 })->with([
     ['incorrect@email.com', 'password123'],
     ['user@userland.com', 'incorrect-password'],
@@ -30,14 +30,5 @@ test('should login user', function () {
         'password' => 'password123',
     ]);
 
-    $response->assertStatus(200)->assertJsonStructure([
-        'user' => [
-            'id',
-            'name',
-            'email',
-            'created_at',
-            'updated_at',
-        ],
-        'token',
-    ]);
+    $response->assertRedirect('/');
 });

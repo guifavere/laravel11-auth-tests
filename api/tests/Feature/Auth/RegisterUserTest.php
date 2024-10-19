@@ -13,5 +13,5 @@ test('should register a user', function () {
         'email' => 'user@test.com',
     ]);
 
-    $response->assertStatus(204);
+    $response->assertRedirect('/login');
 });

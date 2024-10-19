@@ -15,13 +15,14 @@ final class LoginUserController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
-            return response()->json([
-                'user' => Auth::user(),
-                'token' => Auth::user()->createToken('auth_token')->plainTextToken,
-            ]);
+        if (! Auth::attempt($credentials)) {
+            return back()
+                ->withErrors(['email' => 'The provided credentials do not match our records.'])
+                ->onlyInput('email');
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 422);
+        $request->session()->regenerate();
+
+        return redirect('/');
     }
 }

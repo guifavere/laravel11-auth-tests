@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 test('should logout the user', function () {
-    $token = User::factory()->create()->createToken('auth_token');
+    $user = User::factory()->create();
 
-    $response = $this->withHeader('Authorization', "Bearer $token->plainTextToken")->postJson('logout');
+    Auth::login($user);
 
-    $response->assertStatus(204);
-    $this->assertDatabaseMissing('personal_access_tokens', ['id' => $token->accessToken->id]);
+    $response = $this->postJson('logout');
+
+    $response->assertRedirect('/');
 });
